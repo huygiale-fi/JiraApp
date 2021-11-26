@@ -1,7 +1,8 @@
 import * as projectType from 'store/constants/projectType'
 
 const initialState = {
-    userProject:[]
+    userProject:[],
+    detailProject:{}
 }
 
 const projectReducer = (state = initialState, { type, payload }) => {
@@ -23,6 +24,12 @@ const projectReducer = (state = initialState, { type, payload }) => {
         let arrUserProject =  arrProject.filter((project) =>  project.creator.id === user.id )
         return {...state,userProject:arrUserProject }
     case projectType.FETCH_ALL_PROJECT_FAILED:
+        return {...state}
+    case projectType.FETCH_DETAIL_PROJECT_REQUEST:
+        return {...state}
+    case projectType.FETCH_DETAIL_PROJECT_SUCCESS:
+        return {...state,detailProject:payload}
+    case projectType.FETCH_DETAIL_PROJECT_FAILED:
         return {...state}
     default:
         return state

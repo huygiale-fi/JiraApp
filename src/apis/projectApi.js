@@ -6,6 +6,9 @@ const projectApi = {
     postCreateProjectApi(formdata){
         return callApi(`Project/createProjectAuthorize`,'POST',formdata,localStorage.getItem("accessToken"))
     },
+    postUpdateProjectApi(formdata,idProject){
+        return callApi(`Project/updateProject?projectId=${idProject}`,'PUT',formdata,localStorage.getItem("accessToken"))
+    },
     fetchAllProjectApi(){
         return callApi(`Project/getAllProject`,'GET',null,localStorage.getItem("accessToken"))
     },

@@ -1,5 +1,6 @@
 import authApi from "apis/authApi";
 import * as authType from 'store/constants/authType'
+import { fetchAllProjectAction } from "./projectAction";
 
 export const signUpAction = (formData)=>async(dispatch)=>{
     try{
@@ -28,10 +29,17 @@ export const signInAction = (formData)=>async(dispatch)=>{
             type:authType.SIGNIN_SUCCESS,
             payload:response.data.content
         })
+        dispatch(fetchAllProjectAction())
     }catch(err){
         dispatch({
             type:authType.SIGNIN_FAILED,
             payload:err
         })
     }
+}
+
+export const LogoutAction=()=>async(dispatch)=>{
+    dispatch({
+        type:authType.LOGOUT
+    })
 }

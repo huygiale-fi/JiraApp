@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react'
 import { Avatar, Button, MenuItem, TextField } from '@mui/material'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {Redirect} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import * as yup from "yup";
 import { useDispatch, useSelector } from 'react-redux'
 import selectBoxApi from 'apis/selectBoxApi';
@@ -17,21 +17,23 @@ const schema = yup.object({
 }).required();
 
 export default function CreateProject() {
+    const history = useHistory()
     const dispatch = useDispatch()
-    const { isLogged } = useSelector(state => state.authReducer)
+    const { isLogged,user } = useSelector(state => state.authReducer)
     const [category, setcategory] = useState([])
 
     useEffect(() => {
-        if(!isLogged){
-            <Redirect to="/"/>
+        if(!user && !isLogged){
+            history.push("/")
+        }else{
+            localStorage.removeItem('email')
+            selectBoxApi.fetchProjectCategory().then((value) => {
+                setcategory(value.data.content)
+            }).catch((err) => {
+                console.log(err)
+            })
         }
-        localStorage.removeItem('email')
-        selectBoxApi.fetchProjectCategory().then((value) => {
-            setcategory(value.data.content)
-        }).catch((err) => {
-            console.log(err)
-        })
-    }, [isLogged])
+    }, [isLogged,user])
 
     const {
         register,

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 const withLayout = WrappedComponent => {
   return ({ component: Component, isPrivate, ...rest }) => {
-    const {user} = useSelector(state => state.authReducer);
+    const user = localStorage.getItem('user')
     const content = (
       <Route
         {...rest}

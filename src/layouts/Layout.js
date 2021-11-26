@@ -14,8 +14,11 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { Button } from '@mui/material';
 import withLayout from 'hocs/withLayout'
+import Project from 'containers/client/Project/Project';
+import AssignProject from 'containers/client/Member/AssignProject/AssignProject';
+import UpdateProject from 'containers/client/Project/UpdateProject/UpdateProject';
+import UserMenu from 'containers/client/User';
 
 const drawerWidth = 220;
 
@@ -59,32 +62,33 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
+  cursor: 'pointer',
 
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
+  "&:hover": {
+    background: 'rgba(25, 23, 17, 0.1)'
+  }
 
 }));
 
 function JiraLayout(props) {
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+  
   const theme = useTheme();
-  const history = useHistory()
-  let { id } = useParams();
-  
-  
   const { userProject } = useSelector(state => state.projectReducer)
+  const { detailProject } = useSelector(state => state.projectReducer)
   console.log("userProject", userProject);
-//   useEffect(() => {
-//     // if(userProject.length === 0){
-//     //   // history.push(`/createProject`)
-//     // }else{
-//     //   history.push(`/page/${userProject[0]?.id}`)
-//     // }
-//     console.log("idproject",userProject[0]?.id);
-//     history.push(`/page/${userProject[0]?.id}`)
+  //   useEffect(() => {
+  //     // if(userProject.length === 0){
+  //     //   // history.push(`/createProject`)
+  //     // }else{
+  //     //   history.push(`/page/${userProject[0]?.id}`)
+  //     // }
+  //     console.log("idproject",userProject[0]?.id);
+  //     history.push(`/page/${userProject[0]?.id}`)
 
-//   }, [userProject])
+  //   }, [userProject])
   const [open, setOpen] = React.useState(true);
   const user = JSON.parse(localStorage.getItem("user"))
   console.log(user.name);
@@ -96,12 +100,12 @@ function JiraLayout(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-    return (
-        <Box sx={{ display: 'flex' }}>
+  return (
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} style={{ backgroundColor: "white", maxHeight: "45px" }}>
         <Toolbar size="small" style={{ minHeight: "45px", display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{display:"flex"}}>
+          <div style={{ display: "flex" }}>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -112,17 +116,17 @@ function JiraLayout(props) {
               <MenuIcon style={{ color: 'black' }} />
             </IconButton>
             <p style={{ color: "black" }}>
-              Name Project
+              {detailProject?.projectName}
             </p>
           </div>
-          {/* <div style={{display:"flex"}}>
-            <AssignMember  />
-            <UpdateProject/>
-            <AssginList/>
-          </div> */}
+          <div style={{ display: "flex" }}>
+            <AssignProject />
+            <UpdateProject />
+            {/* <AssginList/> */}
+          </div>
         </Toolbar>
       </AppBar>
-      <Drawer
+      <Drawer 
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -135,24 +139,22 @@ function JiraLayout(props) {
         anchor="left"
         open={open}
       >
-        <DrawerHeader id="drawerHeader" style={{ minHeight: "45px" }}>
-          <Button>Click Me</Button>
+        <DrawerHeader id="drawerHeader" style={{ minHeight: "45px", height: "45px", display: "flex", justifyContent: "space-between" }}>
+          <UserMenu  />
           <IconButton id="iconButton" onClick={handleDrawerClose} >
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <List>
-          
+          <Project />
         </List>
-        <Divider />
       </Drawer>
 
       <Main open={open}>
-        <DrawerHeader />
         {props.children}
       </Main>
     </Box>
-    )
+  )
 }
 
 export default withLayout(JiraLayout)

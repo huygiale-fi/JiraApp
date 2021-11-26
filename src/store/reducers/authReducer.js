@@ -26,6 +26,9 @@ const authReducer =  (state = initialState, { type, payload }) => {
     case authType.SIGNIN_FAILED:
         console.log('Đăng nhập thất bại');
         return {...state}
+    case authType.LOGOUT:
+        localStorage.clear();
+        return {...state,isLogged:false,accessToken:null,user:null}
     default:
         return state
     }

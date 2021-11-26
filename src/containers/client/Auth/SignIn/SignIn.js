@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import {useDispatch,useSelector} from 'react-redux'
 import { AuthContainer, AuthContainerSize, AuthContent, AuthDisplay, AuthTitle } from '../SignUp/SignUp.style'
 import { signInAction } from 'store/action/authAction'
+import { fetchAllProjectAction } from 'store/action/projectAction'
 
 const schema = yup.object({
     email: yup.string().required("Please enter your email"),
@@ -18,11 +19,13 @@ export default function SignIn() {
     const history = useHistory()
     const dispatch = useDispatch()
     const {isLogged} = useSelector(state => state.authReducer)
+    const {userProject} = useSelector(state => state.projectReducer)
+    console.log(userProject);
     useEffect(() => {
-        if(isLogged){
-            history.push(`/page/213213`)
+        if(userProject.length > 0){
+            history.push(`/project/${userProject[0]?.id}`)
         }
-    }, [isLogged,history])
+    }, [isLogged,history,userProject])
 
     const {
         register,
