@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -10,7 +10,6 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import styled from 'styled-components'
 import {useDispatch} from 'react-redux'
-import {useHistory} from 'react-router-dom'
 import { LogoutAction } from 'store/action/authAction';
 
 
@@ -28,20 +27,16 @@ export default function UserMenu(props) {
     const user = JSON.parse(localStorage.getItem('user'))
     const [anchorEl, setAnchorEl] = React.useState(null);
     const dispatch = useDispatch()
-    const history = useHistory()
     const openMenu = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
-        console.log("tiep");
         setAnchorEl(null);
     };
     const handleLogout = ()=>{
         dispatch(LogoutAction())
-        history.push("/")
     }
-    console.log(user);
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>

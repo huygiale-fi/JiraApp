@@ -27,7 +27,6 @@ import { useParams } from 'react-router-dom';
 import GroupIcon from '@mui/icons-material/Group';
 import {useDispatch} from 'react-redux'
 import {CreateTaskAction} from 'store/action/taskAction'
-import taskApi from 'apis/taskApi';
 
 function getStyles(name, personName, theme) {
     return {
@@ -223,34 +222,33 @@ export default function NewTask() {
     const [dataMember, setdataMember] = React.useState([]);
     const handleOpenNewTask = () => {
         setopenNewTask(true)
-        console.log(id);
+        
         userApi.fetchUserProjectId(id).then(function (res) {
-
             console.log("member", res.data.content);
             setdataMember(res.data.content)
         }).catch(function (err) {
-            console.log(err);
+           
         })
 
         selectBox.fetchAllStatus().then(function (res) {
-            console.log("status", res.data.content);
+            
             setdataStatus(res.data.content)
         }).catch(function (err) {
-            console.log(err);
+           
         })
 
         selectBox.fetchAllPriority().then(function (res) {
-            console.log("priority", res.data.content);
+            
             setdataPriority(res.data.content)
         }).catch(function (err) {
-            console.log(err);
+           
         })
 
         selectBox.fetchAllTaskType().then(function (res) {
-            console.log("taskktype", res.data.content);
+            
             setdataTaskType(res.data.content)
         }).catch(function (err) {
-            console.log(err);
+           
         })
     };
     const handleCloseNewTask = () => setopenNewTask(false);
@@ -258,7 +256,7 @@ export default function NewTask() {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: {  }
     } = useForm({ resolver: yupResolver(schema) });
 
     const onSubmitTask = (data) => {
@@ -279,6 +277,7 @@ export default function NewTask() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style} style={{ maxHeight: '100%', overflow: 'auto' }}>
+                <form onSubmit={handleSubmit(onSubmitTask)}>
                     <HeaderTask>
                         <OpenPage href="/huygiale">Open as Page</OpenPage>
                         <TaskRight>
@@ -290,7 +289,6 @@ export default function NewTask() {
                         </TaskRight>
                     </HeaderTask>
                     <BodyTask>
-                        <form onSubmit={handleSubmit(onSubmitTask)}>
                             <NameTask
                                 {...register("taskName")}
                                 id="standard-multiline-static"
@@ -417,11 +415,14 @@ export default function NewTask() {
                                         placeholder="Description..."
                                     />
                                 </AreaTask>
-                                <Button type="submit">Taoj</Button>
+                                
                             </SelectInputTask>
-                        </form>
+                        
                     </BodyTask>
+                    <Button style={{float:"right",marginRight:"150px"}} variant="contained" type="submit">Create</Button>
+                    </form>
                 </Box>
+                
             </Modal>
         </div>
     )

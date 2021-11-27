@@ -5,7 +5,11 @@ const taskApi = {
     },
     fetchDetailTask(taskId){
         return callApi(`Project/getTaskDetail?taskId=${taskId}`,"GET",null,localStorage.getItem('accessToken'))
+    },
+    updateTask(formdata){
+        return callApi(`Project/updateTask`,"POST",formdata,localStorage.getItem('accessToken'))
     }
+
     
 }
 export default taskApi

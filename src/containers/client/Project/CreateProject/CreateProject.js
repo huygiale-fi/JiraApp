@@ -30,10 +30,10 @@ export default function CreateProject() {
             selectBoxApi.fetchProjectCategory().then((value) => {
                 setcategory(value.data.content)
             }).catch((err) => {
-                console.log(err)
+                
             })
         }
-    }, [isLogged,user])
+    }, [isLogged,user,history])
 
     const {
         register,
@@ -42,7 +42,7 @@ export default function CreateProject() {
     } = useForm({ resolver: yupResolver(schema) });
 
     const onSubmit = (data) => {
-        console.log(data);
+        
         dispatch(createProjectAction(data))
     }
 

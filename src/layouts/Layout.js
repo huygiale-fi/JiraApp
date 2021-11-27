@@ -1,19 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
-import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import withLayout from 'hocs/withLayout'
 import Project from 'containers/client/Project/Project';
 import AssignProject from 'containers/client/Member/AssignProject/AssignProject';
@@ -74,11 +71,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 function JiraLayout(props) {
-  
+
   const theme = useTheme();
-  const { userProject } = useSelector(state => state.projectReducer)
   const { detailProject } = useSelector(state => state.projectReducer)
-  console.log("userProject", userProject);
   //   useEffect(() => {
   //     // if(userProject.length === 0){
   //     //   // history.push(`/createProject`)
@@ -90,8 +85,6 @@ function JiraLayout(props) {
 
   //   }, [userProject])
   const [open, setOpen] = React.useState(true);
-  const user = JSON.parse(localStorage.getItem("user"))
-  console.log(user.name);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -126,7 +119,7 @@ function JiraLayout(props) {
           </div>
         </Toolbar>
       </AppBar>
-      <Drawer 
+      <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -140,7 +133,7 @@ function JiraLayout(props) {
         open={open}
       >
         <DrawerHeader id="drawerHeader" style={{ minHeight: "45px", height: "45px", display: "flex", justifyContent: "space-between" }}>
-          <UserMenu  />
+          <UserMenu />
           <IconButton id="iconButton" onClick={handleDrawerClose} >
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>

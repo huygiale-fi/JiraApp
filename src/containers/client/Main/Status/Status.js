@@ -51,28 +51,7 @@ user-select: none;
     }
 `
 
-const ButtonNew = styled.button`
-    margin-left: 4px;
-    user-select: none;
-    transition: background 20ms ease-in 0s;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    border-radius:3px;
-    color: white;
-    line-height: 1.2;
-    background: rgb(46, 170, 220);
-    padding-left: 8px;
-    padding-right: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    border:none;
-    &:hover{
-        background: rgb(6, 156, 205);
-    }
-`
+
 export default function StatusNav() {
     return (
         <Container>

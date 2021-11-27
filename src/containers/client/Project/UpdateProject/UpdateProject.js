@@ -2,11 +2,9 @@ import React, { Fragment, useState, useEffect } from 'react'
 import BrightnessLowIcon from '@mui/icons-material/BrightnessLow';
 import { Button, Dialog, DialogTitle, MenuItem, DialogContent, DialogContentText, DialogActions,Tooltip, Slide, TextField } from '@mui/material'
 import styled from 'styled-components'
-import * as yup from "yup";
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom'
-import { useDispatch,useSelector} from 'react-redux'
+import { useDispatch} from 'react-redux'
 import projectApi from 'apis/projectApi'
 import selectBox from 'apis/selectBoxApi';
 import {updateProjectAction} from 'store/action/projectAction'
@@ -41,11 +39,9 @@ export default function UpdateProject() {
     const [category, setcategory] = useState([])
     const [projectDetail, setprojectDetail] = useState()
     const [idProjectCategory, setidProjectCategory] = useState()
-    const {user} = useSelector(state => state.authReducer)
     const {
         register,
         handleSubmit,
-        watch,
         setValue,
         formState: { errors }
     } = useForm({
@@ -62,10 +58,9 @@ export default function UpdateProject() {
 
     useEffect(() => {
         selectBox.fetchProjectCategory().then((value) => {
-            console.log(value.data.content)
+            
             setcategory(value.data.content)
         }).catch((err) => {
-            console.log(err)
         })
         if (projectDetail) {
             setValue("dataProject", {
@@ -87,20 +82,17 @@ export default function UpdateProject() {
             //     shouldDirty: true
             // })
         }
-    }, [projectDetail])
+    }, [projectDetail,setValue])
 
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = async () => {
         await projectApi.fetchProjectDetailApi(id).then(async function (res) {
-            console.log(res.data.content);
             setprojectDetail(res.data.content)
             setidProjectCategory(res.data.content.projectCategory.id)
         }).catch(function (err) {
-            console.log(err);
         })
         setOpen(true)
-        console.log(idProjectCategory);
     };
     
     
@@ -109,13 +101,11 @@ export default function UpdateProject() {
     };
 
     const handleSumitUpdate = (data) => {
-       console.log(data.dataProject);
        const formData = {
             projectName:data.dataProject.projectName,
            description:data.dataProject.description,
            categoryId:data.dataProject.categoryId
        }
-       console.log("formData",formData);
         dispatch(updateProjectAction(formData,id))
     }
 
@@ -175,8 +165,6 @@ export default function UpdateProject() {
                                     helperText={errors?.alias ? errors.alias.message : null}
                                     style={{ width: "100%", height: "20px", margin: "80px 0 50px 0" }}
                                     id="outlined-search-small" color="primary" label="Alias" type="text" size="small" />
-    
-    
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>

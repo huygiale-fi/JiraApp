@@ -1,7 +1,7 @@
 import React from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import {  Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import AddIcon from '@mui/icons-material/Add';
+
 import './Column.scss'
 import Task from "../Task/Task";
 const Container = styled.div`
@@ -36,22 +36,7 @@ const TaskList = styled.div`
   min-height: 100px;
 `;
 
-const ButtonNewColumn = styled.button`
-    margin: 0px 10px;
-    padding: 6px;
-    border: none;
-    display: flex;
-    text-align: left;
-    border-radius: 5px;
-    color: rgba(55, 53, 47, 0.4);
-    align-items: center;
-    background:transparent;
-    cursor:pointer;
-    transition:all .3s;
-    &:hover{
-      background: rgba(55, 53, 47, 0.08);
-    }
-`
+
 
 export default function Column(props) {
   let backLog = ''
@@ -83,7 +68,6 @@ export default function Column(props) {
               </TaskList>
             )}
           </Droppable>
-          <ButtonNewColumn> <AddIcon/> New</ButtonNewColumn>
         </Container>
         )
 }

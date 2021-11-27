@@ -1,10 +1,12 @@
-import { Button } from '@mui/material';
+
 import React, { Fragment } from 'react'
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import TextsmsIcon from '@mui/icons-material/Textsms';
 import './Task.scss'
+import {useDispatch,useSelector} from 'react-redux'
 import UpdateTask from './UpdateTask/UpdateTask';
+import { fetchDetailTaskAction } from 'store/action/taskAction';
 const Container = styled.div`
   padding: 10px;
   border-radius: 4px;
@@ -59,7 +61,10 @@ const CommentIcon = styled(TextsmsIcon)`
 export default function Task(props) {
   const [openNewTask, setopenNewTask] = React.useState(false);
   const [TaskId, setTaskId] = React.useState();
+  const {detailTask}  = useSelector(state => state.taskReducer)
+  
 
+  const dispatch = useDispatch()
     let bug = ''
     let newTask = ''
     let High = ''
@@ -85,7 +90,8 @@ export default function Task(props) {
       newTask='newTask'
     }
     const handleUpdateTask =(taskId)=>{
-      console.log("taskId",taskId);
+      
+      dispatch(fetchDetailTaskAction(props.task.taskId))
       setopenNewTask(true)
       setTaskId(taskId)
     }
@@ -93,7 +99,7 @@ export default function Task(props) {
 
     return (
       <Fragment>
-        <Draggable   draggableId={props.task.taskId.toString()} index={props.index}>
+        <Draggable draggableId={props.task.taskId.toString()} index={props.index}>
         {(provided,snapshot) => (
           <Container onClick={()=>handleUpdateTask(props.task.taskId)}
             {...provided.draggableProps}
@@ -116,7 +122,7 @@ export default function Task(props) {
             <TypeTask className={`${bug} ${newTask}`}>{props.task.taskTypeDetail.taskType}</TypeTask>
             </AreaPriority>
             <AreaComment>
-              <CommentIcon/> 2
+            {detailTask?.lstComment?.length > 0 ? (<CommentIcon> </CommentIcon>) : null}
             </AreaComment>
           </Container>
         )}

@@ -1,13 +1,12 @@
 import { Button } from '@mui/material'
 import React,{Fragment,useState,useEffect} from 'react'
-import {useSelector} from 'react-redux'
 import { AuthContainer,AuthContainerSize,AuthDisplay,AuthTitle,AuthContent,AuthInput } from './SignUp.style'
 import {Link,useHistory,Redirect} from 'react-router-dom'
 
 export default function SignUp() {
     const [email, setemail] = useState(null)
     const history = useHistory()
-    const {isLogged,user} = useSelector(state => state.authReducer)
+    const user = localStorage.getItem('user')
     useEffect(() => {
         if(localStorage.getItem('email')){
             history.push("/onboarding")

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Menu, MenuItem, Button, Box, CircularProgress, Tooltip } from '@mui/material'
 import userApi from 'apis/userApi';
 import { useDispatch } from 'react-redux'
@@ -17,51 +17,41 @@ margin-right: 10px;
 
 export default function AssignProject(props) {
     let { id } = useParams();
-    console.log(id);
     const [listUsers, setlistUsers] = useState([]);
     const [listUserInProject, setlistUserInProject] = useState([]);
-    const [listUserAssign, setlistUserAssign] = useState([]);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openAssign = Boolean(anchorEl);
-    useEffect(() => {
+    
+    const handleOpenAssign = (event) => {
         userApi.fetchAllUser().then(async function (res) {
+            
             await setlistUsers(res.data.content)
         }).catch(function (err) {
-            console.log(err);
+            
         })
         userApi.fetchUserProjectId(id).then(async function (res) {
-            console.log(res);
+            
             await setlistUserInProject(res.data.content)
         }).catch(function (err) {
-            console.log(err);
+            
         })
-        let test = _.xorBy(listUsers, listUserInProject, "userId");
-        console.log(test);
-    }, [id])
-    const handleOpenAssign = (event) => {
-        // if(listUserInProject){
-        //     listUserAssign = _.xorBy(listUsers, listUserInProject, "userId");
-        //     console.log("assignUser",listUserAssign);
-        // }else{
-        //     listUserAssign = listUsers
-        //     console.log("assignUser2",listUserAssign);
-        // }
         setAnchorEl(event.currentTarget);
     };
     const handleCloseAssign = () => {
         setAnchorEl(null);
     };
+    let listUserAssign = _.xorBy(listUsers, listUserInProject, "userId");
     
     const dispatch = useDispatch()
     const handleAssignUser = (e) => {
-        console.log("id", id);
+        
         if (id === "undefined") {
             alert("Khong ton tai project")
         } else {
             const formData = {
                 projectId: id,
                 userId: e.target.value
-            }
+            }   
             dispatch(assignUserProjectAction(formData))
             handleCloseAssign()
         }
@@ -80,7 +70,7 @@ export default function AssignProject(props) {
                     <AddIcon />
                 </Button>
             </Tooltip>
-
+            {listUserAssign.length > 0 ? 
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
@@ -90,19 +80,19 @@ export default function AssignProject(props) {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                {listUserAssign?.length === 0 ?
+                {listUserAssign.length === 0 ?
                     (<MenuItem>
                         <Box sx={{ display: 'flex' }}>
                             <CircularProgress color="inherit" size={50} />
                         </Box>
                     </MenuItem>) :
-                    (listUserAssign?.map(item => (
+                    (listUserAssign.map(item => (
                         <MenuItem onClick={handleAssignUser} key={item.userId} value={item.userId}>
                             <Avatar src={item.avatar} />
                             {item.name}
                         </MenuItem>
                     )))}
-            </Menu>
+            </Menu> : null}
         </Fragment>
     )
 

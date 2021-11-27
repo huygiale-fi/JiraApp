@@ -1,5 +1,4 @@
-import projectApi from 'apis/projectApi'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, {  useEffect } from 'react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router-dom'
 import { fetchProjectDetailAction } from 'store/action/projectAction'
@@ -23,7 +22,7 @@ export default function Main() {
     }, [id])
 
     const onDragEnd = result => {
-        console.log(result);
+        
     }
 
     return (
